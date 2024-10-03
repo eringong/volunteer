@@ -1,10 +1,11 @@
 import React from 'react';
-import Table from './Table'; // Import the Table component
+import Table from './Table'; // Assuming your Table component is named Table
+import './App.css'; // Include your CSS file if needed
 
 function App() {
   return (
-    <div className="App">
-      <h1>Organization Information</h1>
+    <div>
+      <h1 className="title">Volunteer Opportunities Near Salt Lake City</h1>
       <Table />
     </div>
   );

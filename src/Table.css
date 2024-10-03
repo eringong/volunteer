@@ -70,6 +70,17 @@ td, th {
   font-size: 14px;
 }
 
+/* Title Styling */
+.title {
+  text-align: center; /* Center align the title */
+  margin-top: 20px;   /* Add some space above the title */
+  margin-bottom: 20px; /* Add some space below the title */
+  font-size: 24px;     /* Adjust font size as needed */
+  font-weight: bold;    /* Make the title bold */
+  color: #007BFF;      /* Match the title color with the primary color */
+}
+
+
 /* Responsive Design */
 @media (max-width: 768px) {
   table {
