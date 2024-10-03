@@ -24,8 +24,25 @@ const Table = () => {
 
   const handleSort = (field) => {
     const order = sortField === field && sortOrder === 'asc' ? 'desc' : 'asc';
+    
+    // Sort data based on the field and order
+    const sortedData = [...data].sort((a, b) => {
+        if (field === 'minimum_age') {
+            // Convert to integers for sorting
+            return order === 'asc'
+                ? parseInt(a[field], 10) - parseInt(b[field], 10)
+                : parseInt(b[field], 10) - parseInt(a[field], 10);
+        } else {
+            // For other fields, sort as usual (assuming they are strings)
+            return order === 'asc'
+                ? a[field].localeCompare(b[field])
+                : b[field].localeCompare(a[field]);
+        }
+    });
+    
     setSortField(field);
     setSortOrder(order);
+    setData(sortedData); // Update the state with the sorted data
   };
 
   const sortedData = [...data].sort((a, b) => {
