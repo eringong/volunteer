@@ -45,13 +45,13 @@ const Table = () => {
     setData(sortedData); // Update the state with the sorted data
   };
 
-  const sortedData = [...data].sort((a, b) => {
-    if (sortField) {
-      if (a[sortField] < b[sortField]) return sortOrder === 'asc' ? -1 : 1;
-      if (a[sortField] > b[sortField]) return sortOrder === 'asc' ? 1 : -1;
-    }
-    return 0;
-  });
+  // const sortedData = [...data].sort((a, b) => {
+  //   if (sortField) {
+  //     if (a[sortField] < b[sortField]) return sortOrder === 'asc' ? -1 : 1;
+  //     if (a[sortField] > b[sortField]) return sortOrder === 'asc' ? 1 : -1;
+  //   }
+  //   return 0;
+  // });
 
   return (
     <table>
