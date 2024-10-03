@@ -1,0 +1,71 @@
+/* Table.css */
+
+/* Styling the body to center the content */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f7f9fc;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Styling for the table container */
+table {
+  width: 80%;
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 18px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Styling table headers */
+th {
+  background-color: #4caf50;
+  color: white;
+  text-align: left;
+  padding: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Hover effect for the table headers */
+th:hover {
+  background-color: #45a049;
+}
+
+/* Styling table rows */
+td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #dddddd;
+}
+
+/* Alternating row colors */
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Hover effect for table rows */
+tr:hover {
+  background-color: #e0f7fa;
+}
+
+/* Styling for the entire table border */
+table, th, td {
+  border: 1px solid #dddddd;
+}
+
+/* Responsive table for smaller screens */
+@media screen and (max-width: 600px) {
+  table {
+    width: 100%;
+  }
+  th, td {
+    font-size: 16px;
+  }
+}
