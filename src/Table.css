@@ -1,71 +1,79 @@
-/* Table.css */
-
-/* Styling the body to center the content */
+/* General Styling */
 body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f7f9fc;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background-color: #e7f1ff;
   margin: 0;
   padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
 }
 
-/* Styling for the table container */
+/* Table Styling */
 table {
-  width: 80%;
+  width: 100%;
+  max-width: 1200px;
+  margin: 40px auto;
   border-collapse: collapse;
-  margin: 25px 0;
-  font-size: 18px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  background-color: white;
   border-radius: 8px;
   overflow: hidden;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Styling table headers */
-th {
-  background-color: #4caf50;
+/* Table Header */
+thead {
+  background-color: #007BFF;
   color: white;
   text-align: left;
-  padding: 12px;
+}
+
+thead th {
+  padding: 15px;
+  font-size: 16px;
   cursor: pointer;
+  user-select: none;
+  text-transform: uppercase;
   transition: background-color 0.3s ease;
 }
 
-/* Hover effect for the table headers */
-th:hover {
-  background-color: #45a049;
+/* Hover Effect on Table Headers */
+thead th:hover {
+  background-color: #0056b3;
 }
 
-/* Styling table rows */
-td {
-  padding: 12px;
-  text-align: left;
-  border-bottom: 1px solid #dddddd;
+/* Table Body */
+tbody tr {
+  border-bottom: 1px solid #f1f1f1;
 }
 
-/* Alternating row colors */
-tr:nth-child(even) {
-  background-color: #f2f2f2;
+tbody tr:last-child {
+  border-bottom: none;
 }
 
-/* Hover effect for table rows */
-tr:hover {
-  background-color: #e0f7fa;
+tbody td {
+  padding: 15px;
+  color: #333;
 }
 
-/* Styling for the entire table border */
-table, th, td {
-  border: 1px solid #dddddd;
+/* Alternating Row Colors */
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
 }
 
-/* Responsive table for smaller screens */
-@media screen and (max-width: 600px) {
+/* Table Row Hover */
+tbody tr:hover {
+  background-color: #e7f1ff;
+  transition: background-color 0.3s ease;
+}
+
+/* General Text Styling */
+td, th {
+  font-weight: 400;
+  font-size: 14px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
   table {
-    width: 100%;
-  }
-  th, td {
-    font-size: 16px;
+    width: 95%;
   }
 }
+
