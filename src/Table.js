@@ -6,6 +6,7 @@ const Table = () => {
   const [data, setData] = useState([]);
   const [sortField, setSortField] = useState(null);
   const [sortOrder, setSortOrder] = useState('asc');
+  const [filterTraining, setFilterTraining] = useState('all'); // New state for filter
 
   // Fetch and parse CSV data when the component mounts
   useEffect(() => {
@@ -28,49 +29,63 @@ const Table = () => {
     setSortOrder(order);
   };
 
-  // Sort the data based on the selected field and order
-  const sortedData = [...data].sort((a, b) => {
+  // Filter data based on "Training required" field
+  const filteredData = data.filter((item) => {
+    if (filterTraining === 'all') return true; // No filter applied
+    if (filterTraining === 'yes') return item['Training required'].toLowerCase() === 'yes';
+    if (filterTraining === 'no') return item['Training required'].toLowerCase() === 'no';
+    return true;
+  });
+
+  // Sort the filtered data
+  const sortedData = [...filteredData].sort((a, b) => {
     if (sortField) {
-      // Handle "Minimum age" sorting as integers
       if (sortField === 'Minimum age') {
         const aValue = parseInt(a[sortField], 10);
         const bValue = parseInt(b[sortField], 10);
         return sortOrder === 'asc' ? aValue - bValue : bValue - aValue;
       }
-      
-      // For all other fields, sort as strings
       if (a[sortField] < b[sortField]) return sortOrder === 'asc' ? -1 : 1;
       if (a[sortField] > b[sortField]) return sortOrder === 'asc' ? 1 : -1;
     }
     return 0;
   });
 
-
   return (
-    <table>
-      <thead>
-        <tr>
-          <th onClick={() => handleSort('Organization')}>Organization</th>
-          <th onClick={() => handleSort('Service')}>Service</th>
-          <th onClick={() => handleSort('Training required')}>Training Required</th>
-          <th onClick={() => handleSort('Minimum age')}>Minimum Age</th>
-        </tr>
-      </thead>
-      <tbody>
-        {sortedData.map((item, index) => (
-          <tr key={index}>
-            <td>{item.Organization}</td>
-            <td>
-              <a href={item['Service URL']} target="_blank" rel="noopener noreferrer">
-                {item.Service}
-              </a>
-            </td>
-            <td>{item['Training required']}</td>
-            <td>{item['Minimum age']}</td>
+    <div>
+      {/* Dropdown to select filter for "Training required" */}
+      <label htmlFor="filter">Filter by Training Required: </label>
+      <select id="filter" value={filterTraining} onChange={(e) => setFilterTraining(e.target.value)}>
+        <option value="all">All</option>
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+      </select>
+
+      <table>
+        <thead>
+          <tr>
+            <th onClick={() => handleSort('Organization')}>Organization</th>
+            <th onClick={() => handleSort('Service')}>Service</th>
+            <th onClick={() => handleSort('Training required')}>Training Required</th>
+            <th onClick={() => handleSort('Minimum age')}>Minimum Age</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {sortedData.map((item, index) => (
+            <tr key={index}>
+              <td>{item.Organization}</td>
+              <td>
+                <a href={item['Service URL']} target="_blank" rel="noopener noreferrer">
+                  {item.Service}
+                </a>
+              </td>
+              <td>{item['Training required']}</td>
+              <td>{item['Minimum age']}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 };
 

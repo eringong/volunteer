@@ -94,6 +94,12 @@ td, th {
   line-height: 1.5;
 }
 
+#filter {
+  margin-bottom: 20px;
+  padding: 5px;
+  font-size: 14px;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   table {
