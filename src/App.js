@@ -10,9 +10,7 @@ function App() {
       
       {/* Add the description below the title */}
       <p className="description">
-        Explore a variety of volunteer opportunities in the Salt Lake City area. 
-        Whether you're looking for community service, training opportunities, or ways to give back, 
-        we have compiled a list of organizations that could use your help.
+        Explore a variety of volunteer opportunities in the Salt Lake City area. You can sort by column or click on a service opportunity to go to the organization's website.
       </p>
 
       <Table />
