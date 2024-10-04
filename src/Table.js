@@ -45,6 +45,12 @@ const Table = () => {
     return 0;
   });
 
+  // Function to create dynamic URL based on the service name
+  const createServiceUrl = (serviceName) => {
+    const formattedService = serviceName.replace(/\s+/g, '-').toLowerCase();
+    return `/service/${formattedService}`;
+  };  
+
   return (
     <table>
       <thead>
