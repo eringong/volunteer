@@ -45,11 +45,6 @@ const Table = () => {
     return 0;
   });
 
-  // Function to create dynamic URL based on the service name
-  const createServiceUrl = (serviceName) => {
-    const formattedService = serviceName.replace(/\s+/g, '-').toLowerCase();
-    return `/service/${formattedService}`;
-  };  
 
   return (
     <table>
@@ -66,7 +61,7 @@ const Table = () => {
           <tr key={index}>
             <td>{item.Organization}</td>
             <td>
-              <a href={createServiceUrl(item.Service)} target="_blank" rel="noopener noreferrer">
+              <a href={item['Service URL']} target="_blank" rel="noopener noreferrer">
                 {item.Service}
               </a>
             </td>
