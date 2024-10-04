@@ -68,6 +68,11 @@ const Table = () => {
             <th onClick={() => handleSort('Service')}>Service</th>
             <th onClick={() => handleSort('Training required')}>Training Required</th>
             <th onClick={() => handleSort('Minimum age')}>Minimum Age</th>
+            {/* New columns added to the header */}
+            <th onClick={() => handleSort('Commitment')}>Commitment</th>
+            <th onClick={() => handleSort('Group size')}>Group Size</th>
+            <th onClick={() => handleSort('Hours available')}>Hours Available</th>
+            <th onClick={() => handleSort('Other')}>Other</th>
           </tr>
         </thead>
         <tbody>
@@ -81,6 +86,11 @@ const Table = () => {
               </td>
               <td>{item['Training required']}</td>
               <td>{item['Minimum age']}</td>
+              {/* New columns displayed in the body */}
+              <td>{item.Commitment}</td>
+              <td>{item['Group size']}</td>
+              <td>{item['Hours available']}</td>
+              <td>{item.Other}</td>
             </tr>
           ))}
         </tbody>
