@@ -80,11 +80,18 @@ td, th {
   color: #007BFF;      /* Match the title color with the primary color */
 }
 
+.content-wrapper {
+  max-width: 800px; /* Set the width of the container */
+  margin: 0 auto; /* Center the container horizontally */
+  padding: 20px; /* Add padding to the container */
+}
+
 .description {
-  font-size: 116px;
+  font-size: 16px;
   color: #333;
-  margin-bottom: 20px; /* Adds space below the description */
-  text-align: left; /* Align the text */
+  margin-bottom: 20px;
+  text-align: left;
+  line-height: 1.5;
 }
 
 /* Responsive Design */
