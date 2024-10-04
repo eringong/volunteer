@@ -59,7 +59,11 @@ const Table = () => {
         {sortedData.map((item, index) => (
           <tr key={index}>
             <td>{item.Organization}</td>
-            <td>{item.Service}</td>
+            <td>
+              <a href={createServiceUrl(item.Service)} target="_blank" rel="noopener noreferrer">
+                {item.Service}
+              </a>
+            </td>
             <td>{item['Training required']}</td>
             <td>{item['Minimum age']}</td>
           </tr>
