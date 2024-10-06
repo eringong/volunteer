@@ -35,7 +35,7 @@ const Table = () => {
     if (filterRecommendedFor === 'families') return item['Recommended for'].toLowerCase() === 'families';
     if (filterRecommendedFor === 'individuals') return item['Recommended for'].toLowerCase() === 'individuals';
     if (filterRecommendedFor === 'individuals (daytime)') return item['Recommended for'].toLowerCase() === 'individuals (daytime)';
-    if (filterRecommendedFor === 'individuals (evening/weekend)') return item['Recommended for'].toLowerCase() === 'individuals (evening/weekend)';
+    if (filterRecommendedFor === 'individuals (evening or weekend)') return item['Recommended for'].toLowerCase() === 'individuals (evening or weekend)';
     if (filterRecommendedFor === 'groups (any age)') return item['Recommended for'].toLowerCase() === 'groups (any age)';
     if (filterRecommendedFor === 'groups (youth or adult)') return item['Recommended for'].toLowerCase() === 'groups (youth or adult)';
     return true;
@@ -64,7 +64,7 @@ const Table = () => {
         <option value="families">families</option>
         <option value="individuals">individuals</option>
         <option value="individuals (daytime)">individuals (daytime)</option>
-        <option value="individuals (evenings/weekends)">individuals (evenings/weekends)</option>
+        <option value="individuals (evenings or weekends)">individuals (evenings or weekends)</option>
         <option value="groups (any age)">groups (any age)</option>
         <option value="groups (youth or adult)">groups (youth or adult)</option>
       </select>
