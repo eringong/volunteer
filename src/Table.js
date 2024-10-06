@@ -6,7 +6,7 @@ const Table = () => {
   const [data, setData] = useState([]);
   const [sortField, setSortField] = useState(null);
   const [sortOrder, setSortOrder] = useState('asc');
-  const [filterTraining, setFilterTraining] = useState('all'); // New state for filter
+  const [filterRecommendedFor, setFilterRecommendedFor] = useState('all'); // New state for filter
 
   // Fetch and parse CSV data when the component mounts
   useEffect(() => {
@@ -29,15 +29,15 @@ const Table = () => {
     setSortOrder(order);
   };
 
-  // Filter data based on "Training required" field
+  // Filter data based on "Recommended for" field
   const filteredData = data.filter((item) => {
-    if (filterTraining === 'all') return true; // No filter applied
-    if (filterTraining === 'Families') return item['Recommended for'].toLowerCase() === 'families';
-    if (filterTraining === 'Individuals') return item['Recommended for'].toLowerCase() === 'individuals';
-    if (filterTraining === 'Individuals (daytime)') return item['Recommended for'].toLowerCase() === 'individuals (daytime)';
-    if (filterTraining === 'Individuals (evening/weekend)') return item['Recommended for'].toLowerCase() === 'individuals (evening/weekend)';
-    if (filterTraining === 'Groups (any age)') return item['Recommended for'].toLowerCase() === 'groups (any age)';
-    if (filterTraining === 'Groups (youth or adult)') return item['Recommended for'].toLowerCase() === 'groups (youth or adult)';
+    if (filterRecommnendedFor === 'all') return true; // No filter applied
+    if (filterRecommnendedFor === 'families') return item['Recommended for'].toLowerCase() === 'families';
+    if (filterRecommnendedFor === 'individuals') return item['Recommended for'].toLowerCase() === 'individuals';
+    if (filterRecommnendedFor === 'individuals (daytime)') return item['Recommended for'].toLowerCase() === 'individuals (daytime)';
+    if (filterRecommnendedFor === 'individuals (evening/weekend)') return item['Recommended for'].toLowerCase() === 'individuals (evening/weekend)';
+    if (filterRecommnendedFor === 'groups (any age)') return item['Recommended for'].toLowerCase() === 'groups (any age)';
+    if (filterRecommnendedFor === 'groups (youth or adult)') return item['Recommended for'].toLowerCase() === 'groups (youth or adult)';
     return true;
   });
 
@@ -59,7 +59,7 @@ const Table = () => {
     <div>
       {/* Dropdown to select filter for "Training required" */}
       <label htmlFor="filter">Filter to recommended for: </label>
-      <select id="filter" value={filterTraining} onChange={(e) => setFilterTraining(e.target.value)}>
+      <select id="filter" value={filterRecommnendedFor} onChange={(e) => setfilterRecommnendedFor(e.target.value)}>
         <option value="all">All</option>
         <option value="families">families</option>
         <option value="individuals">individuals</option>
@@ -81,7 +81,7 @@ const Table = () => {
             <th onClick={() => handleSort('Group size')}>Group Size</th>
             <th onClick={() => handleSort('Hours available')}>Hours Available</th>
             <th onClick={() => handleSort('Other')}>Other</th>
-            <th onClick={() => handleSort('Recommend for')}>Recommended for</th>
+            <th onClick={() => handleSort('Recommended for')}>Recommended for</th>
           </tr>
         </thead>
         <tbody>
