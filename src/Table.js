@@ -32,8 +32,12 @@ const Table = () => {
   // Filter data based on "Training required" field
   const filteredData = data.filter((item) => {
     if (filterTraining === 'all') return true; // No filter applied
-    if (filterTraining === 'yes') return item['Training required'].toLowerCase() === 'yes';
-    if (filterTraining === 'no') return item['Training required'].toLowerCase() === 'no';
+    if (filterTraining === 'Families') return item['Recommended for'].toLowerCase() === 'families';
+    if (filterTraining === 'Individuals') return item['Recommended for'].toLowerCase() === 'individuals';
+    if (filterTraining === 'Individuals (daytime)') return item['Recommended for'].toLowerCase() === 'individuals (daytime)';
+    if (filterTraining === 'Individuals (evening/weekend)') return item['Recommended for'].toLowerCase() === 'individuals (evening/weekend)';
+    if (filterTraining === 'Groups (any age)') return item['Recommended for'].toLowerCase() === 'groups (any age)';
+    if (filterTraining === 'Groups (youth or adult)') return item['Recommended for'].toLowerCase() === 'groups (youth or adult)';
     return true;
   });
 
@@ -54,11 +58,15 @@ const Table = () => {
   return (
     <div>
       {/* Dropdown to select filter for "Training required" */}
-      <label htmlFor="filter">Filter by Training Required: </label>
+      <label htmlFor="filter">Filter to recommended for: </label>
       <select id="filter" value={filterTraining} onChange={(e) => setFilterTraining(e.target.value)}>
         <option value="all">All</option>
-        <option value="yes">Yes</option>
-        <option value="no">No</option>
+        <option value="families">families</option>
+        <option value="individuals">individuals</option>
+        <option value="individuals (daytime)">individuals (daytime)</option>
+        <option value="individuals (evenings/weekends)">individuals (evenings/weekends)</option>
+        <option value="groups (any age)">groups (any age)</option>
+        <option value="groups (youth or adult)">groups (youth or adult)</option>
       </select>
 
       <table>
@@ -69,11 +77,11 @@ const Table = () => {
             <th onClick={() => handleSort('Description')}>Description</th>
             <th onClick={() => handleSort('Training required')}>Training Required</th>
             <th onClick={() => handleSort('Minimum age')}>Minimum Age</th>
-            {/* New columns added to the header */}
             <th onClick={() => handleSort('Commitment')}>Commitment</th>
             <th onClick={() => handleSort('Group size')}>Group Size</th>
             <th onClick={() => handleSort('Hours available')}>Hours Available</th>
             <th onClick={() => handleSort('Other')}>Other</th>
+            <th onClick={() => handleSort('Recommend for')}>Recommended for</th>
           </tr>
         </thead>
         <tbody>
@@ -88,11 +96,11 @@ const Table = () => {
               <td>{item.Description}</td>
               <td>{item['Training required']}</td>
               <td>{item['Minimum age']}</td>
-              {/* New columns displayed in the body */}
               <td>{item.Commitment}</td>
               <td>{item['Group size']}</td>
               <td>{item['Hours available']}</td>
               <td>{item.Other}</td>
+              <td>{item['Recommended for']}</td>              
             </tr>
           ))}
         </tbody>
