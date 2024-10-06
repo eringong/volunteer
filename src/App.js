@@ -10,7 +10,9 @@ function App() {
       
       {/* Add the description below the title */}
       <p className="description">
-        Explore a variety of volunteer opportunities in the Salt Lake City area. You can sort by column or click on a service opportunity to go to the organization's website.
+        Explore a variety of volunteer opportunities in the Salt Lake City area. 
+        You can sort by column or click on a service opportunity to go to the organization's website.
+        Please verify any information here with the organization directly.
       </p>
 
       <Table />
