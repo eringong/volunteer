@@ -41,8 +41,8 @@ const Table = () => {
   const sortedData = [...filteredData].sort((a, b) => {
     if (sortField) {
       if (sortField === 'Minimum age') {
-        const aValue = parseInt(a[sortField], 10);
-        const bValue = parseInt(b[sortField], 10);
+        const aValue = a[sortField] ? parseInt(a[sortField], 10) : Infinity;
+        const bValue = b[sortField] ? parseInt(b[sortField], 10) : Infinity;
         return sortOrder === 'asc' ? aValue - bValue : bValue - aValue;
       }
       if (a[sortField] < b[sortField]) return sortOrder === 'asc' ? -1 : 1;
