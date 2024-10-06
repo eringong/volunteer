@@ -66,6 +66,7 @@ const Table = () => {
           <tr>
             <th onClick={() => handleSort('Organization')}>Organization</th>
             <th onClick={() => handleSort('Service')}>Service</th>
+            <th onClick={() => handleSort('Description')}>Description</th>
             <th onClick={() => handleSort('Training required')}>Training Required</th>
             <th onClick={() => handleSort('Minimum age')}>Minimum Age</th>
             {/* New columns added to the header */}
@@ -84,6 +85,7 @@ const Table = () => {
                   {item.Service}
                 </a>
               </td>
+              <td>{item.Description}</td>
               <td>{item['Training required']}</td>
               <td>{item['Minimum age']}</td>
               {/* New columns displayed in the body */}
