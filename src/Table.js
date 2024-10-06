@@ -59,7 +59,7 @@ const Table = () => {
     <div>
       {/* Dropdown to select filter for "Training required" */}
       <label htmlFor="filter">Filter to recommended for: </label>
-      <select id="filter" value={filterRecommendedFor} onChange={(e) => setfilterRecommendedFor(e.target.value)}>
+      <select id="filter" value={filterRecommendedFor} onChange={(e) => setFilterRecommendedFor(e.target.value)}>
         <option value="all">All</option>
         <option value="families">families</option>
         <option value="individuals">individuals</option>
