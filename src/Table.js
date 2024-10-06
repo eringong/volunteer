@@ -64,7 +64,7 @@ const Table = () => {
         <option value="families">families</option>
         <option value="individuals">individuals</option>
         <option value="individuals (daytime)">individuals (daytime)</option>
-        <option value="individuals (evenings or weekends)">individuals (evenings or weekends)</option>
+        <option value="individuals (evening or weekend)">individuals (evening or weekend)</option>
         <option value="groups (any age)">groups (any age)</option>
         <option value="groups (youth or adult)">groups (youth or adult)</option>
       </select>
