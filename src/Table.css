@@ -81,9 +81,11 @@ td, th {
 }
 
 .content-wrapper {
-  max-width: 800px; /* Set the width of the container */
+  width: 90%; /* Adjust the width to control the table width */
+  max-width: 1200px; /* Set a maximum width for the table */
   margin: 0 auto; /* Center the container horizontally */
   padding: 20px; /* Add padding to the container */
+  text-align: left; /* Align the text to the left */  
 }
 
 .description {
