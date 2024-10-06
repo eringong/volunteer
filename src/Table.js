@@ -31,13 +31,13 @@ const Table = () => {
 
   // Filter data based on "Recommended for" field
   const filteredData = data.filter((item) => {
-    if (filterRecommnendedFor === 'all') return true; // No filter applied
-    if (filterRecommnendedFor === 'families') return item['Recommended for'].toLowerCase() === 'families';
-    if (filterRecommnendedFor === 'individuals') return item['Recommended for'].toLowerCase() === 'individuals';
-    if (filterRecommnendedFor === 'individuals (daytime)') return item['Recommended for'].toLowerCase() === 'individuals (daytime)';
-    if (filterRecommnendedFor === 'individuals (evening/weekend)') return item['Recommended for'].toLowerCase() === 'individuals (evening/weekend)';
-    if (filterRecommnendedFor === 'groups (any age)') return item['Recommended for'].toLowerCase() === 'groups (any age)';
-    if (filterRecommnendedFor === 'groups (youth or adult)') return item['Recommended for'].toLowerCase() === 'groups (youth or adult)';
+    if (filterRecommendedFor === 'all') return true; // No filter applied
+    if (filterRecommendedFor === 'families') return item['Recommended for'].toLowerCase() === 'families';
+    if (filterRecommendedFor === 'individuals') return item['Recommended for'].toLowerCase() === 'individuals';
+    if (filterRecommendedFor === 'individuals (daytime)') return item['Recommended for'].toLowerCase() === 'individuals (daytime)';
+    if (filterRecommendedFor === 'individuals (evening/weekend)') return item['Recommended for'].toLowerCase() === 'individuals (evening/weekend)';
+    if (filterRecommendedFor === 'groups (any age)') return item['Recommended for'].toLowerCase() === 'groups (any age)';
+    if (filterRecommendedFor === 'groups (youth or adult)') return item['Recommended for'].toLowerCase() === 'groups (youth or adult)';
     return true;
   });
 
@@ -59,7 +59,7 @@ const Table = () => {
     <div>
       {/* Dropdown to select filter for "Training required" */}
       <label htmlFor="filter">Filter to recommended for: </label>
-      <select id="filter" value={filterRecommnendedFor} onChange={(e) => setfilterRecommnendedFor(e.target.value)}>
+      <select id="filter" value={filterRecommendedFor} onChange={(e) => setfilterRecommendedFor(e.target.value)}>
         <option value="all">All</option>
         <option value="families">families</option>
         <option value="individuals">individuals</option>
