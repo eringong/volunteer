@@ -1,108 +1,173 @@
 import React, { useState, useEffect } from 'react';
+import { useTable, useSortBy, useFilters } from 'react-table';
 import Papa from 'papaparse';
-import './Table.css'; // Import the CSS file
+import './Table.css'; // Import your CSS file
+
+// A simple text filter function for the header
+const DefaultColumnFilter = ({
+  column: { filterValue, setFilter, preFilteredRows, id },
+}) => {
+  return (
+    <input
+      value={filterValue || ''}
+      onChange={(e) => setFilter(e.target.value || undefined)} // Set undefined to remove the filter entirely
+      placeholder={`Search ${id}`}
+    />
+  );
+};
+
+const SelectColumnFilter = ({
+  column: { filterValue, setFilter, preFilteredRows, id },
+}) => {
+  const options = React.useMemo(() => {
+    const uniqueOptions = new Set();
+    preFilteredRows.forEach((row) => {
+      uniqueOptions.add(row.values[id]);
+    });
+    return [...uniqueOptions];
+  }, [id, preFilteredRows]);
+
+  return (
+    <select
+      value={filterValue}
+      onChange={(e) => setFilter(e.target.value || undefined)}
+    >
+      <option value="">All</option>
+      {options.map((option, i) => (
+        <option key={i} value={option}>
+          {option}
+        </option>
+      ))}
+    </select>
+  );
+};
+
 
 const Table = () => {
   const [data, setData] = useState([]);
-  const [sortField, setSortField] = useState(null);
-  const [sortOrder, setSortOrder] = useState('asc');
-  const [filterRecommendedFor, setFilterRecommendedFor] = useState('all'); // New state for filter
 
-  // Fetch and parse CSV data when the component mounts
+  // Fetch and parse CSV data
   useEffect(() => {
-    fetch('/data.csv') // Path to your CSV file in the public folder
-      .then(response => response.text())
-      .then(csvData => {
+    fetch('/data.csv') // Adjust the path to your CSV file
+      .then((response) => response.text())
+      .then((csvData) => {
         Papa.parse(csvData, {
-          header: true, // Parses the first row as column names
+          header: true, // Parse the first row as column names
           skipEmptyLines: true, // Skip empty lines
           complete: (result) => {
-            setData(result.data); // Store the parsed CSV data in the state
-          }
+            setData(result.data); // Store parsed data
+          },
         });
       });
   }, []);
 
-  const handleSort = (field) => {
-    const order = sortField === field && sortOrder === 'asc' ? 'desc' : 'asc';
-    setSortField(field);
-    setSortOrder(order);
-  };
+  // Define table columns and setup filters
+  const columns = React.useMemo(
+    () => [
+      {
+        Header: 'Organization',
+        accessor: 'Organization',
+        Filter: DefaultColumnFilter, // Add the default filter
+      },
+      {
+        Header: 'Service',
+        accessor: 'Service',
+        Filter: DefaultColumnFilter,
+      },
+      {
+        Header: 'Description',
+        accessor: 'Description',
+        Filter: DefaultColumnFilter,
+      },
+      {
+        Header: 'Training Required',
+        accessor: 'Training required',
+        Filter: DefaultColumnFilter,
+      },
+      {
+        Header: 'Minimum Age',
+        accessor: 'Minimum age',
+        Filter: DefaultColumnFilter,
+      },
+      {
+        Header: 'Commitment',
+        accessor: 'Commitment',
+        Filter: DefaultColumnFilter,
+      },
+      {
+        Header: 'Group Size',
+        accessor: 'Group size',
+        Filter: DefaultColumnFilter,
+      },
+      {
+        Header: 'Hours Available',
+        accessor: 'Hours available',
+        Filter: DefaultColumnFilter,
+      },
+      {
+        Header: 'Other',
+        accessor: 'Other',
+        Filter: DefaultColumnFilter,
+      },
+      {
+        Header: 'Recommended For',
+        accessor: 'Recommended for',
+        Filter: SelectColumnFilter,
+      },
+    ],
+    []
+  );
 
-  // Filter data based on "Recommended for" field
-  const filteredData = data.filter((item) => {
-    if (filterRecommendedFor === 'all') return true; // No filter applied
-    if (filterRecommendedFor === 'families') return item['Recommended for'].toLowerCase() === 'families';
-    if (filterRecommendedFor === 'individuals') return item['Recommended for'].toLowerCase() === 'individuals';
-    if (filterRecommendedFor === 'individuals (daytime)') return item['Recommended for'].toLowerCase() === 'individuals (daytime)';
-    if (filterRecommendedFor === 'individuals (evening or weekend)') return item['Recommended for'].toLowerCase() === 'individuals (evening or weekend)';
-    if (filterRecommendedFor === 'groups (any age)') return item['Recommended for'].toLowerCase() === 'groups (any age)';
-    if (filterRecommendedFor === 'groups (youth or adult)') return item['Recommended for'].toLowerCase() === 'groups (youth or adult)';
-    return true;
-  });
-
-  // Sort the filtered data
-  const sortedData = [...filteredData].sort((a, b) => {
-    if (sortField) {
-      if (sortField === 'Minimum age') {
-        const aValue = a[sortField] ? parseInt(a[sortField], 10) : Infinity;
-        const bValue = b[sortField] ? parseInt(b[sortField], 10) : Infinity;
-        return sortOrder === 'asc' ? aValue - bValue : bValue - aValue;
-      }
-      if (a[sortField] < b[sortField]) return sortOrder === 'asc' ? -1 : 1;
-      if (a[sortField] > b[sortField]) return sortOrder === 'asc' ? 1 : -1;
-    }
-    return 0;
-  });
+  // Set up react-table instance with sorting and filtering
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+  } = useTable(
+    {
+      columns,
+      data,
+      defaultColumn: { Filter: DefaultColumnFilter }, // Default filter setup
+    },
+    useFilters, // Enable filters
+    useSortBy // Enable sorting
+  );
 
   return (
     <div>
-      {/* Dropdown to select filter for "Training required" */}
-      <label htmlFor="filter">Filter to recommended for: </label>
-      <select id="filter" value={filterRecommendedFor} onChange={(e) => setFilterRecommendedFor(e.target.value)}>
-        <option value="all">All</option>
-        <option value="families">families</option>
-        <option value="individuals">individuals</option>
-        <option value="individuals (daytime)">individuals (daytime)</option>
-        <option value="individuals (evening or weekend)">individuals (evening or weekend)</option>
-        <option value="groups (any age)">groups (any age)</option>
-        <option value="groups (youth or adult)">groups (youth or adult)</option>
-      </select>
-
-      <table>
+      <table {...getTableProps()} className="table">
         <thead>
-          <tr>
-            <th onClick={() => handleSort('Organization')}>Organization</th>
-            <th onClick={() => handleSort('Service')}>Service</th>
-            <th onClick={() => handleSort('Description')}>Description</th>
-            <th onClick={() => handleSort('Training required')}>Training Required</th>
-            <th onClick={() => handleSort('Minimum age')}>Minimum Age</th>
-            <th onClick={() => handleSort('Commitment')}>Commitment</th>
-            <th onClick={() => handleSort('Group size')}>Group Size</th>
-            <th onClick={() => handleSort('Hours available')}>Hours Available</th>
-            <th onClick={() => handleSort('Other')}>Other</th>
-            <th onClick={() => handleSort('Recommended for')}>Recommended for</th>
-          </tr>
-        </thead>
-        <tbody>
-          {sortedData.map((item, index) => (
-            <tr key={index}>
-              <td>{item.Organization}</td>
-              <td>
-                <a href={item['Service URL']} target="_blank" rel="noopener noreferrer">
-                  {item.Service}
-                </a>
-              </td>
-              <td>{item.Description}</td>
-              <td>{item['Training required']}</td>
-              <td>{item['Minimum age']}</td>
-              <td>{item.Commitment}</td>
-              <td>{item['Group size']}</td>
-              <td>{item['Hours available']}</td>
-              <td>{item.Other}</td>
-              <td>{item['Recommended for']}</td>              
+          {headerGroups.map((headerGroup) => (
+            <tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column) => (
+                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                  {column.render('Header')}
+                  <span>
+                    {column.isSorted
+                      ? column.isSortedDesc
+                        ? ' 🔽'
+                        : ' 🔼'
+                      : ''}
+                  </span>
+                  <div>{column.canFilter ? column.render('Filter') : null}</div>
+                </th>
+              ))}
             </tr>
           ))}
+        </thead>
+        <tbody {...getTableBodyProps()}>
+          {rows.map((row) => {
+            prepareRow(row);
+            return (
+              <tr {...row.getRowProps()}>
+                {row.cells.map((cell) => (
+                  <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                ))}
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
