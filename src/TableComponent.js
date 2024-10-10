@@ -44,6 +44,7 @@ const customStyles = {
     ...base,
     margin: '0px', // Remove margin from the input element
     padding: '0px', // Remove padding from the input element
+    caretColor: 'transparent',
   }),
   dropdownIndicator: (base) => ({
     ...base,
@@ -101,8 +102,6 @@ const MultiSelectColumnFilter = ({ column: { filterValue = [], setFilter, preFil
   );
 };
 
-
-
 // Custom filter function to handle multi-select filtering
 function multiSelectFilterFn(rows, columnIds, filterValue) {
   if (filterValue.length === 0) return rows;
@@ -114,6 +113,185 @@ function multiSelectFilterFn(rows, columnIds, filterValue) {
 
 // Tell React Table that this is a custom filter function
 multiSelectFilterFn.autoRemove = (val) => !val || val.length === 0;
+
+
+
+// Static options for Commitment
+const commitmentOptions = [
+  { value: 'Low', label: 'Low' },
+  { value: 'Medium', label: 'Medium' },
+  { value: 'High', label: 'High' },
+];
+
+const CommitmentFilter = ({ column: { filterValue = [], setFilter } }) => {
+  const handleChange = (selectedOptions) => {
+    setFilter(selectedOptions ? selectedOptions.map((option) => option.value) : []);
+  };
+
+  return (
+    <Select
+      value={filterValue.map((val) => ({ value: val, label: val }))}
+      onChange={handleChange}
+      options={commitmentOptions} // Use predefined options for Commitment
+      isMulti
+      placeholder="Filter Commitment"
+      classNamePrefix="react-select"
+    />
+  );
+};
+
+const keywordStartMatchFilter = (rows, id, filterValue) => {
+  if (!filterValue || filterValue.length === 0) return rows; // Return all rows if no filter is applied
+
+  return rows.filter((row) => {
+    const rowValue = row.values[id] || '';
+    // Check if the row value includes any of the selected keywords
+    return filterValue.some((keyword) => rowValue.toLowerCase().startsWith(keyword.toLowerCase()));
+  });
+};
+
+
+// Static options for Commitment
+const recommendedOptions = [
+  { value: 'individuals', label: 'Individuals' },
+  { value: 'families', label: 'Families' },
+  { value: 'groups', label: 'Groups' },
+  { value: 'youth groups', label: 'Youth Groups' },
+];
+
+const RecommendedFilter = ({ column: { filterValue = [], setFilter } }) => {
+  const handleChange = (selectedOptions) => {
+    setFilter(selectedOptions ? selectedOptions.map((option) => option.value) : []);
+  };
+
+  return (
+    <Select
+      value={filterValue.map((val) => ({ value: val, label: val }))}
+      onChange={handleChange}
+      options={recommendedOptions} // Use predefined options for Commitment
+      isMulti
+      placeholder="Filter Recommended"
+      classNamePrefix="react-select"
+    />
+  );
+};
+
+const keywordMatchFilter = (rows, id, filterValue) => {
+  if (!filterValue || filterValue.length === 0) return rows; // Return all rows if no filter is applied
+
+  return rows.filter((row) => {
+    const rowValue = row.values[id] || '';
+    // Check if the row value includes any of the selected keywords
+    return filterValue.some((keyword) => rowValue.toLowerCase().includes(keyword.toLowerCase()));
+  });
+};
+
+const ageCategories = [
+  { value: 'under12', label: 'Under 12' },
+  { value: '12-17', label: '12-17 years' },
+  { value: '18+', label: '18 and older' },
+  { value: 'no-minimum', label: 'No Minimum Age' },
+];
+
+// Multi-select filter component for age categories
+const MultiSelectAgeFilter = ({ column: { filterValue = [], setFilter } }) => {
+  const handleChange = (selectedOptions) => {
+    setFilter(selectedOptions ? selectedOptions.map((option) => option.value) : []);
+  };
+
+  return (
+    <Select
+      value={filterValue.map((val) => ageCategories.find((opt) => opt.value === val))}
+      onChange={handleChange}
+      options={ageCategories} // Use predefined age categories
+      isMulti
+      placeholder="Filter by Age"
+      classNamePrefix="react-select"
+    />
+  );
+};
+
+const ageRangeFilter = (rows, id, filterValues) => {
+  if (!filterValues || filterValues.length === 0) return rows; // Return all rows if no filter is applied
+
+  return rows.filter((row) => {
+    const rowValue = row.values[id]; // Access the cell value for "Minimum age"
+
+    return filterValues.some((category) => {
+      // Include null, undefined, and empty values in "No Minimum Age" category
+      if (category === 'no-minimum') {
+        return rowValue === null || rowValue === undefined || rowValue === '';
+      }
+
+      // If value is present, convert to integer for comparison
+      const ageValue = parseInt(rowValue, 10);
+
+      // Perform category matching based on defined age ranges
+      switch (category) {
+        case 'under12':
+          return ageValue < 12; // Match ages under 12
+        case '12-17':
+          return ageValue >= 12 && ageValue <= 17; // Match ages 12 to 17 inclusive
+        case '18+':
+          return ageValue >= 18; // Match ages 18 and older
+        default:
+          return false;
+      }
+    });
+  });
+};
+
+const groupCategories = [
+  { value: '1', label: '1' },
+  { value: '2-5', label: '2-5' },
+  { value: '6-10', label: '6-10' },
+  { value: '11-20', label: '11-20' },
+  { value: '21+', label: 'more than 20' },
+];
+
+// Multi-select filter component for age categories
+const MultiSelectGroupFilter = ({ column: { filterValue = [], setFilter } }) => {
+  const handleChange = (selectedOptions) => {
+    setFilter(selectedOptions ? selectedOptions.map((option) => option.value) : []);
+  };
+
+  return (
+    <Select
+      value={filterValue.map((val) => groupCategories.find((opt) => opt.value === val))}
+      onChange={handleChange}
+      options={groupCategories} // Use predefined age categories
+      isMulti
+      placeholder="Filter by Group"
+      classNamePrefix="react-select"
+    />
+  );
+};
+
+const groupSizeFilter = (rows, id, filterValues) => {
+  if (!filterValues || filterValues.length === 0) return rows;
+
+  return rows.filter((row) => {
+    const rowValue = parseInt(row.values[id], 10); // Convert to integer for comparison
+
+    // Check if the row value matches any of the selected categories
+    return filterValues.some((category) => {
+      switch (category) {
+        case '1':
+          return rowValue == 1;
+        case '2-5':
+          return rowValue >= 2 && rowValue <= 5;
+        case '6-10':
+          return rowValue >= 6 && rowValue <= 10;
+        case '11-20':
+          return rowValue >= 11 && rowValue <= 20;
+        case '21+':
+          return rowValue >= 21; // Match ages 18 and older
+        default:
+          return false;
+      }
+    });
+  });
+};
 
 // Custom sort function to handle integer sorting
 const sortNumeric = (rowA, rowB, columnId) => {
@@ -129,6 +307,9 @@ const TableComponent = () => {
   // Add the state variables for the dropdown filters
   const [trainingFilter, setTrainingFilter] = useState([]); // State for Training Required filter
   const [recommendedFilter, setRecommendedFilter] = useState([]); // State for Recommended For filter  
+  const [commitmentFilter, setCommitmentFilter] = useState([]); // State for Recommended For filter  
+  const [ageFilter, setAgeFilter] = useState([]); // State for Recommended For filter  
+  const [groupFilter, setGroupFilter] = useState([]); // State for Recommended For filter  
 
   // Parse CSV data from the public folder
   useEffect(() => {
@@ -183,18 +364,23 @@ const TableComponent = () => {
         accessor: 'Minimum age',
         sortType: sortNumeric, // Use custom numeric sort function
         disableFilters: true, // Disable filter box for this column
+        Filter: MultiSelectAgeFilter,
+        filter: 'ageRangeFilter',
       },
       {
         Header: 'Commitment',
         accessor: 'Commitment',
         disableFilters: true, // Disable filters for this column        
-        Filter: DefaultColumnFilter,
+        Filter: CommitmentFilter, // Use a multi-select dropdown filter
+        filter: 'keywordStartMatch', // Apply custom keyword match filter for partial string matching        
       },
       {
         Header: 'Max group size',
         accessor: 'Max group size',
         sortType: sortNumeric, // Use custom numeric sort function
         disableFilters: true, // Disable filter box for this column
+        Filter: MultiSelectGroupFilter,
+        filter: 'groupSizeFilter',
       },
       {
         Header: 'Hours available',
@@ -202,18 +388,18 @@ const TableComponent = () => {
         disableFilters: true, // Disable filters for this column
         disableSortBy: true, // Disable sorting for this column
       },
-      // {
-      //   Header: 'Other',
-      //   accessor: 'Other',
-      //   disableFilters: true, // Disable filters for this column
-      //   disableSortBy: true, // Disable sorting for this column
-      // },
+      {
+        Header: 'Other',
+        accessor: 'Other',
+        disableFilters: true, // Disable filters for this column
+        disableSortBy: true, // Disable sorting for this column
+      },
       {
         Header: 'Recommended for',
         accessor: 'Recommended for',
         disableFilters: true, // Disable filters for this column
-        Filter: MultiSelectColumnFilter,
-        filter: 'multiSelectFilterFn',
+        Filter: RecommendedFilter,
+        filter: 'keywordMatch',
         minWidth: 150,
       },
     ],
@@ -253,7 +439,12 @@ const TableComponent = () => {
       columns, // Pass columns definition
       data, // Pass table data
       defaultColumn: { Filter: DefaultColumnFilter }, // Default filter component
-      filterTypes: { multiSelectFilterFn }, // Custom filter type
+      filterTypes: { multiSelectFilterFn,
+        keywordStartMatch: keywordStartMatchFilter,
+        keywordMatch:keywordMatchFilter,
+        ageRangeFilter: ageRangeFilter,
+        groupSizeFilter: groupSizeFilter,
+        }, // Custom filter type
     },
     useFilters, // Hook for column filters
     useGlobalFilter, // Hook for global search
@@ -286,7 +477,62 @@ const TableComponent = () => {
     <div className="filters-container">
       <h3>Filters</h3>
       <div className="filter-row">
-        {/* Dropdown Filter for Training Required */}
+
+        {/* Dropdown Filter for Recommended For */}
+        <div className="filter-box-container">
+          <Select
+            value={recommendedFilter}
+            onChange={(selectedOptions) => {
+              setRecommendedFilter(selectedOptions || []);
+              setAllFilters('Recommended for', selectedOptions ? selectedOptions.map(option => option.value) : []);
+            }}
+            options={recommendedOptions}
+            isMulti
+            closeMenuOnSelect={false}
+            components={{ Option: CheckboxOption }}
+            placeholder="Recommended For"
+            classNamePrefix="react-select"
+            styles={customStyles}
+          />
+        </div>
+
+        {/* Dropdown Filter for Age */}
+        <div className="filter-box-container">
+          <Select
+            value={ageFilter}
+            onChange={(selectedOptions) => {
+              setAgeFilter(selectedOptions || []);
+              setAllFilters('Minimum age', selectedOptions ? selectedOptions.map(option => option.value) : []);
+            }}
+            options={ageCategories}
+            isMulti
+            closeMenuOnSelect={false}
+            components={{ Option: CheckboxOption }}
+            placeholder="Minimum Age"
+            classNamePrefix="react-select"
+            styles={customStyles}
+          />
+        </div>
+
+        {/* Dropdown Filter for Group Size */}
+        <div className="filter-box-container">
+          <Select
+            value={groupFilter}
+            onChange={(selectedOptions) => {
+              setGroupFilter(selectedOptions || []);
+              setAllFilters('Max group size', selectedOptions ? selectedOptions.map(option => option.value) : []);
+            }}
+            options={groupCategories}
+            isMulti
+            closeMenuOnSelect={false}
+            components={{ Option: CheckboxOption }}
+            placeholder="Group Size"
+            classNamePrefix="react-select"
+            styles={customStyles}
+          />
+        </div>
+
+        {/* Dropdown Filter for Training Required */}       
         <div className="filter-box-container">
           <Select
             value={trainingFilter}
@@ -302,25 +548,27 @@ const TableComponent = () => {
             classNamePrefix="react-select"
             styles={customStyles}
           />
-        </div>
+        </div>        
 
-        {/* Dropdown Filter for Recommended For */}
+        {/* Dropdown Filter for Commitment */}
         <div className="filter-box-container">
           <Select
-            value={recommendedFilter}
+            value={commitmentFilter}
             onChange={(selectedOptions) => {
-              setRecommendedFilter(selectedOptions || []);
-              setAllFilters('Recommended for', selectedOptions ? selectedOptions.map(option => option.value) : []);
+              setCommitmentFilter(selectedOptions || []);
+              setAllFilters('Commitment', selectedOptions ? selectedOptions.map(option => option.value) : []);
             }}
-            options={getUniqueOptions(preFilteredRows, 'Recommended for')}
+            options={commitmentOptions}
             isMulti
             closeMenuOnSelect={false}
             components={{ Option: CheckboxOption }}
-            placeholder="Recommended For"
+            placeholder="Commitment"
             classNamePrefix="react-select"
             styles={customStyles}
           />
         </div>
+
+
       </div>      
     </div>
 
