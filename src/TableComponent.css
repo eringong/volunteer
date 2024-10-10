@@ -1,0 +1,121 @@
+.container {
+  padding: 30px; /* Add padding around the entire container */
+  background-color: #f9f9f9; /* Optional: Set a background color */
+  border-radius: 8px; /* Optional: Add rounded corners for better aesthetics */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Optional: Add subtle shadow */
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.table th,
+.table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.table th {
+  background-color: #f4f4f4;
+  text-align: left;
+}
+
+/* Left align text in table cells */
+td {
+  text-align: left; /* Align text to the left */
+}
+
+.column-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sort-arrows {
+  display: flex;
+  flex-direction: column;
+}
+
+.arrow {
+  font-size: 10px;
+  color: #ccc;
+  margin-left: 4px;
+}
+
+.arrow.active {
+  color: #000; /* Darken the color for active sorting */
+}
+
+/* Common class for search and filter boxes */
+.filter-box {
+  width: 100%;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  min-height: 25px; /* Match the dropdown height */
+}
+
+/* Container for all filters */
+.filters-container {
+  display: flex; /* Set flex display to align items horizontally */
+  align-items: center; /* Vertically center align the items */
+  gap: 20px; /* Add space between the header and the filter row */
+  margin-bottom: 5px;
+}
+
+/* Flex container for filters */
+.filter-row {
+  display: flex; /* Use flexbox for horizontal alignment */
+  gap: 20px; /* Add space between the filters */
+  align-items: center; /* Vertically align filter dropdowns */
+}
+
+/* Individual filter box styling */
+.filter-box-container {
+  display: flex; /* Flex layout for label and dropdown */
+  flex-direction: column; /* Place label above dropdown */
+  min-width: 250px; /* Set a consistent minimum width */
+}
+
+.filter-box-container label {
+  margin-bottom: 5px; /* Add space between the label and the dropdown */
+  font-weight: bold; /* Make the labels stand out */
+  min-width: 200px; /* Ensure consistent minimum width for dropdowns */
+}
+
+
+/* Custom styling for the react-select dropdown */
+.react-select__control {
+  min-height: 35px !important; /* Set the minimum height for the dropdown */
+  border: 1px solid #ccc !important; /* Match the border style */
+  box-shadow: none !important; /* Remove the shadow effect */
+}
+
+.react-select__control--is-focused {
+  border: 1px solid #ccc !important; /* Maintain the same border when focused */
+  box-shadow: none !important; /* Remove focus shadow */
+}
+
+.react-select__indicator-separator {
+  display: none !important; /* Remove the vertical separator line in the dropdown */
+}
+
+.react-select__dropdown-indicator {
+  color: #333; /* Match the dropdown indicator color */
+}
+
+.react-select__menu {
+  border-radius: 0 0 5px 5px; /* Match border radius for the dropdown */
+}
+
+.react-select__menu-list {
+  padding: 0; /* Remove extra padding inside the dropdown list */
+}
+
+.react-select__option {
+  padding: 10px; /* Match padding for options */
+}
+
